@@ -5,8 +5,6 @@ Esta es una REST API, construida 100% con javascript, usando arquitectura limpia
 
 **_Es muy importante que se tenga instalado docker ya que el repositorio está diseñado para que el desarrollo se haga por medio de contenedores docker_**
 
-
-
 ## Stack
 
 [**Node**](https://nodejs.org/)
@@ -31,7 +29,6 @@ Esta es una REST API, construida 100% con javascript, usando arquitectura limpia
 - **services:** Contiene todo lo referente a casos de uso y lógica de negocio, en esta capa se hacen las operaciones que requiera el negocio.
 - **utils:** Esta capa contiene las estrategias de autenticación y funciones de ayuda para gestionar los datos.
 
-
 ## API Reference
 
 Esta api cuenta con vesionamiento, es decir, se puede tener más de una versión y por la configuración se puede acomodar que afecta cada _end-point_
@@ -41,34 +38,32 @@ Esta api cuenta con vesionamiento, es decir, se puede tener más de una versión
 - **base_url:** Es la url por defecto del servidor donde corre, en desarrollo es localhost:3000
 
 ```http
- {{base_url}}/api/v1/
+ METHOD 200 {{base_url}}/api/v1/
 ```
 _**Todas las rutas o end-points de la aplicación deben tener esta estructura inicial**_
-
-
 
 #### Get all items
 
 ```http
-  GET /users
+  GET 200 /users
 ```
 #### Get one item
 ```http
-  GET /users/:id
+  GET 200 /users/:id
 ```
 #### Add item
 ```http
-  POST /users
+  POST 201 /users
 ```
 - **Nota:** La data se pasa por medio del body en formato JSON, para ver como va cada dato se debe entrar a la carpeta **schemas** y revisar el esquema de la entidad que se quiere crear.
 
 #### Update item
 ```http
-  PATCH /users/:id
+  PATCH 200 /users/:id
 ```
 #### Delete item
 ```http
-  DELETE /users/:id
+  DELETE 200 /users/:id
 ```
 - **Nota:** Para ver con que ruta se crea cada entidad se debe ir a la carpeta **routes** y abrir el archivo **index.js**.
 ## Installation
@@ -80,7 +75,6 @@ Estando ubicados en la raíz del proyecto se debe ejecutar:
   npm run migrations:run
   docker-compose up -d
 ```
-
 ## [Migrations](https://sequelize.org/docs/v6/other-topics/migrations/)
 
 Para poder hacer un cambio en la base de datos que se está ejecutando se debe primero generar la migración:
@@ -90,7 +84,6 @@ Para poder hacer un cambio en la base de datos que se está ejecutando se debe p
 ```
 
 Luego se debe abrir el archivo que se crea en **_db/migration/migration_name_** y se debe hacer el alter de la tabla por medio de la api que provee sequelize.
-
 
 ## [Data Base](https://expressjs.com/en/guide/database-integration.html#postgresql)
 
