@@ -38,32 +38,32 @@ Esta api cuenta con vesionamiento, es decir, se puede tener más de una versión
 - **base_url:** Es la url por defecto del servidor donde corre, en desarrollo es localhost:3000
 
 ```http
- {{base_url}}/api/v1/
+ METHOD 200 {{base_url}}/api/v1/
 ```
 _**Todas las rutas o end-points de la aplicación deben tener esta estructura inicial**_
 
 #### Get all items
 
 ```http
-  GET /users
+  GET 200 /users
 ```
 #### Get one item
 ```http
-  GET /users/:id
+  GET 200 /users/:id
 ```
 #### Add item
 ```http
-  POST /users
+  POST 201 /users
 ```
 - **Nota:** La data se pasa por medio del body en formato JSON, para ver como va cada dato se debe entrar a la carpeta **schemas** y revisar el esquema de la entidad que se quiere crear.
 
 #### Update item
 ```http
-  PATCH /users/:id
+  PATCH 200 /users/:id
 ```
 #### Delete item
 ```http
-  DELETE /users/:id
+  DELETE 200 /users/:id
 ```
 - **Nota:** Para ver con que ruta se crea cada entidad se debe ir a la carpeta **routes** y abrir el archivo **index.js**.
 ## Installation
