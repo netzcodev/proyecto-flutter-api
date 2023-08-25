@@ -11,7 +11,9 @@
     "node": true,
     "jest": true
   },
+  "plugins": ["import"],
   "rules": {
-    "no-console": "warn"
+    "no-console": "warn",
+    "import/no-cycle": ["warn", { "maxDepth": 2 }]
   }
 }
