@@ -18,9 +18,16 @@ const UsersModelSchema = {
     allowNull: false,
     type: DataTypes.STRING
   },
-  role: {
+  roleId: {
+    field: 'role',
     allowNull: false,
-    type: DataTypes.STRING(20)
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'roles',
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE'
   },
   createdAt: {
     allowNull: false,
@@ -39,6 +46,7 @@ class User extends Model {
   static associate(models) {
     this.hasOne(models.Customer, { as: 'customer', foreignKey: 'userId' });
     this.hasOne(models.Customer, { as: 'employee', foreignKey: 'userId' });
+    this.belongsTo(models.Role, { as: 'role', foreignKey: 'roleId' })
   }
 
   static config(sequelize) {
