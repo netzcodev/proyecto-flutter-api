@@ -14,13 +14,13 @@ const { Schedule, SchedulesModelSchema } = require('./schedules.model');
 
 function setUpModels(sequelize) {
   Vehicle.init(VehiclesModelSchema, Vehicle.config(sequelize));
+  Role.init(RolesModelSchema, Role.config(sequelize));
   User.init(UsersModelSchema, User.config(sequelize));
   People.init(PeopleModelSchema, People.config(sequelize));
   ServicesType.init(ServicesTypesModelSchema, ServicesType.config(sequelize));
   Customer.init(CustomerModelSchema, Customer.config(sequelize));
   Employee.init(EmployeesModelSchema, Employee.config(sequelize));
   Menu.init(MenuModelSchema, Menu.config(sequelize));
-  Role.init(RolesModelSchema, Role.config(sequelize));
   Permission.init(PermissionsModelSchema, Permission.config(sequelize));
   Service.init(ServicesModelSchema, Service.config(sequelize));
   Schedule.init(SchedulesModelSchema, Schedule.config(sequelize));
@@ -29,10 +29,10 @@ function setUpModels(sequelize) {
   Customer.associate(sequelize.models);
   Employee.associate(sequelize.models);
   People.associate(sequelize.models);
+  Role.associate(sequelize.models);
   User.associate(sequelize.models);
   ServicesType.associate(sequelize.models);
   Menu.associate(sequelize.models);
-  Role.associate(sequelize.models);
   Permission.associate(sequelize.models);
   ScheduleService.associate(sequelize.models);
   Service.associate(sequelize.models);
