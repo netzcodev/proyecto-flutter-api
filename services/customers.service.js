@@ -1,10 +1,21 @@
 const { models } = require('../libs/sequelize');
 const boom = require('@hapi/boom');
+const { encryption } = require('../utils/helpers/encryption');
 
 class CustomersService {
 
   async create(data) {
-    const obj = await models.Customer.create(data, {
+    const hash = await encryption(data['user'].password);
+    const user = {
+      ...data['user'],
+      password: hash,
+    }
+    const people = data['people'];
+    const myData = {
+      user,
+      people
+    }
+    const obj = await models.Customer.create(myData, {
       include: ['user', 'people']
     });
     return obj;
