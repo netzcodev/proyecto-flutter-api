@@ -1,10 +1,11 @@
 const express = require('express');
 const routerApi = require('./routes');
 const cors = require('cors');
+const { config } = require('./config/config');
 const { errorHandler, logError, boomErrorHandler, ormErrorHandler } = require('./middlewares/error.handler');
 
 const app = express();
-const port = 3000;
+const port = config.host;
 const whitelist = ['http://localhost:3000/', 'http://localhost:*'];
 
 const options = {
@@ -26,6 +27,4 @@ app.use(ormErrorHandler);
 app.use(boomErrorHandler);
 app.use(errorHandler);
 
-app.listen(port, () => {
-  console.log(`Listen on port: ${port}`);
-})
+app.listen(port);
