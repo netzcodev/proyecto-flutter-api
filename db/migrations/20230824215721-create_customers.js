@@ -22,6 +22,7 @@ module.exports = {
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
     await queryInterface.createTable(vehiclesTable, VehiclesModelSchema);//*
+    await queryInterface.createTable(rolesTable, RolesModelSchema);//*
     await queryInterface.createTable(usersTable, UsersModelSchema); //*
     await queryInterface.createTable(peopleTable, PeopleModelSchema); //*
     await queryInterface.createTable(customersTable, CustomersModelSchema); //*
@@ -31,7 +32,6 @@ module.exports = {
     await queryInterface.createTable(schedulesTable, SchedulesModelSchema); //
     await queryInterface.createTable(scheduleserviceTable, ScheduleServiceModelSchema); //
     await queryInterface.createTable(menuTable, MenuModelSchema); //*
-    await queryInterface.createTable(rolesTable, RolesModelSchema); //*
     await queryInterface.createTable(permissionsTable, PermissionsModelSchema); //*
   },
 
