@@ -19,3 +19,6 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=admin123
     ports:
       - 5050:80
+
+  app:
+    container_name: node-app
