@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const { signToken } = require('../utils/helpers/token');
+const { userLogginMapper } = require('../utils/helpers/mappers/user.mapper');
 
 const router = express.Router();
 
@@ -14,12 +15,11 @@ router.post('/login',
         sub: user.id,
         role: user.role
       }
-      delete user.password;
       const token = signToken(payload);
-      res.json({
+      res.json(userLogginMapper({
         user,
         token
-      });
+      }));
     } catch (error) {
       next(error);
     }
