@@ -118,4 +118,5 @@ Para crear la imágen del docker se deben correr los siguiente comandos en la te
 **Nota:** Esto guardará la imágen hasta los cambios acutales del proyecto, es como si fuera una versión de producción. **_si se van a trabajar cambios constantes y se requieren hacer pruebas desde el front lo mejor es hacerlo con:_**  _npm run dev_
 
 **Nota:** Abrir docker y hacer stop de la imagen de nodeapp para que no genere conflicto en el puerto 3000
+
 **Nota:** Puede que se generen errores al momento de hacer la versión de producción, para estos casos cambiar el host de la base de datos por 'postgres'
