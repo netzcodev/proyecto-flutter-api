@@ -21,7 +21,7 @@ class UsersService {
 
   async findOne(id) {
     const obj = await models.User.findByPk(id, {
-      include: [{
+      include: ['role', {
         association: 'customer',
         include: ['people']
       }]
