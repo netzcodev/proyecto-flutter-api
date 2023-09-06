@@ -9,7 +9,10 @@ const service = new PeopleService();
 // Read
 router.get('/', async (req, res, next) => {
   try {
-    const objs = await service.find();
+    const limit = req.params.limit ? req.params.limit : 10;
+    const offset = req.params.offset ? req.params.offset : 0;
+
+    const objs = await service.find(limit, offset);
     res.json(objs);
   } catch (error) {
     next(error);

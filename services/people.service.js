@@ -8,8 +8,8 @@ class PeopleService {
     return obj;
   }
 
-  async find() {
-    const response = await models.People.findAll();
+  async find(limit, offset) {
+    const response = await models.People.findAll({ limit, offset });
     return response;
   }
 
