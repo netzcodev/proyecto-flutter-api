@@ -102,3 +102,19 @@ $ npm install --save oracledb # Oracle Database
 ```
 
 Teniendo instalado el driver se procede a cambiar la propiedad _diealect_ en el archivo **libs/sequelize.js**, poner el valor correspondiente del motor que se haya instalado, si hay alguna duda [ver](https://sequelize.org/docs/v6/other-topics/dialect-specific-things/)
+
+
+## Creación de app en producción.
+
+El objetivo de agregar el contenedor app al archivo **_docker-compose.yml_** es poder correr toda la aplicación desde docker, pero de igual manera se puede correr con el demonio de node.
+
+Para crear la imágen del docker se deben correr los siguiente comandos en la terminal:
+
+```bash
+  docker build -t nodeapp .
+  docker-compose up -d
+```
+
+**Nota:** Esto guardará la imágen hasta los cambios acutales del proyecto, es como si fuera una versión de producción. **_si se van a trabajar cambios constantes y se requieren hacer pruebas desde el front lo mejor es hacerlo con:_**  _npm run dev_
+
+**Nota:** Abrir docker y hacer stop de la imagen de nodeapp para que no genere conflicto en el puerto 3000
