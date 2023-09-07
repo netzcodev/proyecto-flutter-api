@@ -34,20 +34,20 @@ const PermissionsModelSchema = {
     onDelete: 'CASCADE'
   },
   add: {
-    allowNull: false,
-    type: DataTypes.BOOLEAN
+    allowNull: true,
+    type: DataTypes.INTEGER
   },
   read: {
-    allowNull: false,
-    type: DataTypes.BOOLEAN
+    allowNull: true,
+    type: DataTypes.INTEGER
   },
   modify: {
-    allowNull: false,
-    type: DataTypes.BOOLEAN
+    allowNull: true,
+    type: DataTypes.INTEGER
   },
   remove: {
-    allowNull: false,
-    type: DataTypes.BOOLEAN
+    allowNull: true,
+    type: DataTypes.INTEGER
   },
   createdAt: {
     allowNull: false,

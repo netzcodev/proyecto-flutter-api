@@ -9,15 +9,6 @@ const UsersModelSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  email: {
-    allowNull: false,
-    unique: true,
-    type: DataTypes.STRING(50)
-  },
-  password: {
-    allowNull: false,
-    type: DataTypes.STRING
-  },
   roleId: {
     field: 'role',
     allowNull: false,
@@ -28,6 +19,10 @@ const UsersModelSchema = {
     },
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE'
+  },
+  status: {
+    allowNull: true,
+    type: DataTypes.STRING(2)
   },
   createdAt: {
     allowNull: false,
@@ -44,8 +39,7 @@ const UsersModelSchema = {
 
 class User extends Model {
   static associate(models) {
-    this.hasOne(models.Customer, { as: 'customer', foreignKey: 'userId' });
-    this.hasOne(models.Customer, { as: 'employee', foreignKey: 'userId' });
+    this.hasOne(models.People, { as: 'People', foreignKey: 'userId' });
     this.belongsTo(models.Role, { as: 'role', foreignKey: 'roleId' })
   }
 

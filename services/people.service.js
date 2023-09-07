@@ -21,6 +21,20 @@ class PeopleService {
     return obj;
   }
 
+  async findByEmail(email) {
+    const obj = await models.People.findOne({
+      where: { email },
+      include: [{
+        association: 'user',
+        include: [{
+          association: 'role',
+          include: ['permissions']
+        }]
+      }]
+    });
+    return obj;
+  }
+
   async update(id, changes) {
     const obj = await this.findOne(id);
     const response = await obj.update(changes);

@@ -1,25 +1,22 @@
 const Joi = require('joi');
 
 const id = Joi.number();
-const email = Joi.string().email();
-const password = Joi.number();
 const role = Joi.string().max(20);
+const status = Joi.string().min(1).max(2).default('A');
 const createdAt = Joi.date().default(Date.now());
 const updatedAt = Joi.date().default(Date.now());
 
 
 const createUserSchema = Joi.object({
-  email: email.required(),
-  password: password.required(),
   role: role.required(),
+  status,
   createdAt,
   updatedAt
 })
 
 const updateUserSchema = Joi.object({
-  email,
-  password,
   role,
+  status,
   createdAt,
   updatedAt
 })

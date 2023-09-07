@@ -1,9 +1,9 @@
 const { Strategy } = require('passport-local');
-const UsersService = require('../../../services/users.service');
+const PeopleService = require('../../../services/people.service');
 const { verifyPassword } = require('../../helpers/encryption');
 const boom = require('@hapi/boom');
 
-const service = new UsersService();
+const service = new PeopleService();
 
 const LocalStrategy = new Strategy(async function (email, password, done) {
   try {

@@ -1,9 +1,7 @@
 'use strict';
 const { VehiclesModelSchema, vehiclesTable } = require('../models/vehicles.model');
-const { CustomersModelSchema, customersTable } = require('../models/customers.model');
 const { UsersModelSchema, usersTable } = require('../models/users.model');
 const { PeopleModelSchema, peopleTable } = require('../models/people.model');
-const { EmployeesModelSchema, employeesTable } = require('../models/employees.model');
 const { MenuModelSchema, menuTable } = require('../models/menu.model');
 const { ServicesModelSchema, servicesTable } = require('../models/services.model');
 const { ServicesTypesModelSchema, servicestypesTable } = require('../models/servicestypes.model');
@@ -25,8 +23,6 @@ module.exports = {
     await queryInterface.createTable(rolesTable, RolesModelSchema);//*
     await queryInterface.createTable(usersTable, UsersModelSchema); //*
     await queryInterface.createTable(peopleTable, PeopleModelSchema); //*
-    await queryInterface.createTable(customersTable, CustomersModelSchema); //*
-    await queryInterface.createTable(employeesTable, EmployeesModelSchema); //*
     await queryInterface.createTable(servicestypesTable, ServicesTypesModelSchema); //*
     await queryInterface.createTable(servicesTable, ServicesModelSchema); //
     await queryInterface.createTable(schedulesTable, SchedulesModelSchema); //
@@ -42,17 +38,15 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.dropTable(scheduleserviceTable);
     await queryInterface.dropTable(schedulesTable);
+    await queryInterface.dropTable(scheduleserviceTable);
+    await queryInterface.dropTable(vehiclesTable);
     await queryInterface.dropTable(servicesTable);
     await queryInterface.dropTable(servicestypesTable);
-    await queryInterface.dropTable(customersTable);
-    await queryInterface.dropTable(employeesTable);
-    await queryInterface.dropTable(usersTable);
-    await queryInterface.dropTable(peopleTable);
     await queryInterface.dropTable(permissionsTable);
+    await queryInterface.dropTable(peopleTable);
+    await queryInterface.dropTable(usersTable);
     await queryInterface.dropTable(rolesTable);
     await queryInterface.dropTable(menuTable);
-    await queryInterface.dropTable(vehiclesTable);
   }
 };

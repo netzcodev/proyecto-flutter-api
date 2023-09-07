@@ -1,6 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const { customersTable } = require('./customers.model');
-const { employeesTable } = require('./employees.model');
+const { peopleTable } = require('./people.model');
 const { servicesTable } = require('./services.model');
 
 const TABLE = 'schedules';
@@ -17,7 +16,7 @@ const SchedulesModelSchema = {
     allowNull: false,
     type: DataTypes.INTEGER,
     references: {
-      model: customersTable,
+      model: peopleTable,
       key: 'id'
     },
     onUpdate: 'CASCADE',
@@ -28,7 +27,7 @@ const SchedulesModelSchema = {
     allowNull: false,
     type: DataTypes.INTEGER,
     references: {
-      model: employeesTable,
+      model: peopleTable,
       key: 'id'
     },
     onUpdate: 'CASCADE',
@@ -68,11 +67,11 @@ const SchedulesModelSchema = {
 
 class Schedule extends Model {
   static associate(models) {
-    this.belongsTo(models.Customer, {
+    this.belongsTo(models.People, {
       foreignKey: 'customerId',
       as: 'customer'
     });
-    this.belongsTo(models.Employee, {
+    this.belongsTo(models.People, {
       foreignKey: 'employeeId',
       as: 'employee'
     })

@@ -10,12 +10,16 @@ const RolesModelSchema = {
     type: DataTypes.INTEGER
   },
   name: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.STRING(50)
   },
   description: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.STRING
+  },
+  status: {
+    allowNull: true,
+    type: DataTypes.STRING(2)
   },
   createdAt: {
     allowNull: false,

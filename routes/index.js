@@ -1,7 +1,5 @@
 const express = require('express');
 const passport = require('passport');
-const customers = require('./customers.router');
-const employees = require('./employees.router');
 const people = require('./people.router');
 const roles = require('./roles.router');
 const schedules = require('./schedules.router');
@@ -16,15 +14,13 @@ function routerApi(app) {
   app.use('/api/v1', router);
   router.use('/auth', auth);
   router.use(passport.authenticate('jwt', { session: false }))
-  router.use('/customers', customers);
-  router.use('/employees', employees);
-  router.use('/people', people);
-  router.use('/roles', roles);
+  router.use('/vehicles', vehicles);
   router.use('/schedules', schedules);
   router.use('/services', services);
   router.use('/services-types', servicestypes);
+  router.use('/roles', roles);
   router.use('/users', users);
-  router.use('/vehicles', vehicles);
+  router.use('/people', people);
 
 }
 

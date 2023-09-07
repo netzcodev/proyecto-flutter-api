@@ -17,6 +17,10 @@ const MenuModelSchema = {
     allowNull: false,
     type: DataTypes.STRING
   },
+  status: {
+    allowNull: true,
+    type: DataTypes.STRING(2)
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,

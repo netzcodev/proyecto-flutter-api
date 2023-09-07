@@ -7,6 +7,7 @@ const add = Joi.bool();
 const read = Joi.bool();
 const modify = Joi.bool();
 const remove = Joi.bool();
+const status = Joi.string().min(1).max(2).default('A');
 const createdAt = Joi.date().default(Date.now());
 const updatedAt = Joi.date().default(Date.now());
 
@@ -18,6 +19,7 @@ const createPermissionSchema = Joi.object({
   read: read.required(),
   modify: modify.required(),
   remove: remove.required(),
+  status,
   createdAt,
   updatedAt,
 })
@@ -27,6 +29,7 @@ const updatePermissionSchema = Joi.object({
   read,
   modify,
   remove,
+  status,
   updatedAt,
 })
 

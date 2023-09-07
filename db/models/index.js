@@ -3,8 +3,6 @@ const { Vehicle, VehiclesModelSchema } = require('./vehicles.model');
 const { User, UsersModelSchema } = require('./users.model');
 const { People, PeopleModelSchema } = require('./people.model');
 const { ServicesType, ServicesTypesModelSchema } = require('./servicestypes.model');
-const { Employee, EmployeesModelSchema } = require('./employees.model');
-const { Customer, CustomerModelSchema } = require('./customers.model');
 const { Menu, MenuModelSchema } = require('./menu.model');
 const { Role, RolesModelSchema } = require('./roles.model');
 const { Permission, PermissionsModelSchema } = require('./permissions.model');
@@ -18,16 +16,12 @@ function setUpModels(sequelize) {
   User.init(UsersModelSchema, User.config(sequelize));
   People.init(PeopleModelSchema, People.config(sequelize));
   ServicesType.init(ServicesTypesModelSchema, ServicesType.config(sequelize));
-  Customer.init(CustomerModelSchema, Customer.config(sequelize));
-  Employee.init(EmployeesModelSchema, Employee.config(sequelize));
   Menu.init(MenuModelSchema, Menu.config(sequelize));
   Permission.init(PermissionsModelSchema, Permission.config(sequelize));
   Service.init(ServicesModelSchema, Service.config(sequelize));
   Schedule.init(SchedulesModelSchema, Schedule.config(sequelize));
   ScheduleService.init(ScheduleServiceModelSchema, ScheduleService.config(sequelize));
 
-  Customer.associate(sequelize.models);
-  Employee.associate(sequelize.models);
   People.associate(sequelize.models);
   Role.associate(sequelize.models);
   User.associate(sequelize.models);

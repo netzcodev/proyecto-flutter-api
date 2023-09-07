@@ -16,7 +16,7 @@ router.post('/login',
       const user = req.user;
       const payload = {
         sub: user.id,
-        role: user.role.name
+        role: user.user.role.name
       }
       const token = signToken(payload);
       res.json(userLogginMapper({

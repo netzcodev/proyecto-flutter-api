@@ -1,4 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
+const { usersTable } = require('./users.model');
 
 const TABLE = 'people';
 
@@ -10,7 +11,7 @@ const PeopleModelSchema = {
     type: DataTypes.INTEGER
   },
   document: {
-    allowNull: false,
+    allowNull: true,
     unique: true,
     type: DataTypes.INTEGER
   },
@@ -24,8 +25,36 @@ const PeopleModelSchema = {
     type: DataTypes.STRING(15)
   },
   phone: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.STRING(10)
+  },
+  email: {
+    allowNull: false,
+    unique: true,
+    type: DataTypes.STRING(50)
+  },
+  password: {
+    allowNull: false,
+    type: DataTypes.STRING
+  },
+  photo: {
+    allowNull: true,
+    type: DataTypes.STRING(50)
+  },
+  status: {
+    allowNull: false,
+    type: DataTypes.STRING(2)
+  },
+  userId: {
+    field: 'user_id',
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    references: {
+      model: usersTable,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE'
   },
   createdAt: {
     allowNull: false,
@@ -42,8 +71,7 @@ const PeopleModelSchema = {
 
 class People extends Model {
   static associate(models) {
-    this.hasOne(models.Customer, { as: 'customer', foreignKey: 'peopleId' });
-    this.hasOne(models.Customer, { as: 'employee', foreignKey: 'peopleId' });
+    this.belongsTo(models.User, { as: 'user', foreignKey: 'userId' });
   }
 
   static config(sequelize) {
