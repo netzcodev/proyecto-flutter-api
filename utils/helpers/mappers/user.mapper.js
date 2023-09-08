@@ -1,10 +1,14 @@
+const { permissionMapper } = require('./permissions.mapper');
+
 function userLogginMapper(json) {
+  const menus = json.user.user.role.permissions.map(item => permissionMapper(item));
   return {
     id: json.user.id,
     email: json.user.email,
     role: json.user.user.role.name,
     fullName: `${json.user.name} ${json.user.lastName}`,
-    token: json.token
+    token: json.token,
+    menu: menus,
   }
 }
 

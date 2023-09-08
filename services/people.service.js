@@ -50,7 +50,10 @@ class PeopleService {
         association: 'user',
         include: [{
           association: 'role',
-          include: ['permissions']
+          include: [{
+            association: 'permissions',
+            include: ['menu']
+          }]
         }]
       }]
     });
