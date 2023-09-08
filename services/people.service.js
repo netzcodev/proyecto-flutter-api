@@ -1,20 +1,42 @@
 const { models } = require('../libs/sequelize');
 const boom = require('@hapi/boom');
+const { encryption } = require('../utils/helpers/encryption');
 
 class PeopleService {
 
   async create(data) {
-    const obj = await models.People.create(data);
+    const hash = await encryption(data.password);
+    const response = await models.People.create({
+      ...data,
+      password: hash
+    });
+    const obj = await this.findOne(response.id);
+
     return obj;
   }
 
   async find(limit, offset) {
-    const response = await models.People.findAll({ limit, offset });
+    const response = await models.People.findAll({
+      limit,
+      offset,
+      include: [{
+        association: 'user',
+        include: ['role']
+      }]
+    });
     return response;
   }
 
   async findOne(id) {
-    const obj = await models.People.findByPk(id);
+    const obj = await models.People.findByPk(id, {
+      include: [{
+        association: 'user',
+        include: [{
+          association: 'role',
+          include: ['permissions']
+        }]
+      }]
+    });
     if (!obj) {
       throw boom.notFound('Person Not Found');
     }

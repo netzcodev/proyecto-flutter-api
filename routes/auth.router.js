@@ -1,12 +1,12 @@
 const express = require('express');
 const passport = require('passport');
-const UsersService = require('../services/users.service');
+const PeopleService = require('../services/people.service');
 const { signToken } = require('../utils/helpers/token');
 const { userLogginMapper } = require('../utils/helpers/mappers/user.mapper');
 const { checkStatus } = require('../middlewares/auth.handler');
 
 const router = express.Router();
-const userService = new UsersService;
+const peopleService = new PeopleService;
 
 // Create
 router.post('/login',
@@ -34,10 +34,10 @@ router.get('/check-status',
   checkStatus,
   async (req, res, next) => {
     try {
-      const user = await userService.findOne(req.user.sub);
+      const user = await peopleService.findOne(req.user.sub);
       const payload = {
         sub: user.id,
-        role: user.role.name
+        role: user.user.role.name
       }
       const token = signToken(payload);
       res.json(userLogginMapper({

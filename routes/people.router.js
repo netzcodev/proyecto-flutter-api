@@ -2,7 +2,7 @@ const express = require('express');
 const PeopleService = require('../services/people.service');
 const validatorHandler = require('../middlewares/validator.handler');
 const { createPeopleSchema, updatePeopleSchema, getPeopleSchema } = require('../schemas/people.schema');
-
+const { peopleMapper } = require('../utils/helpers/mappers/people.mapper');
 const router = express.Router();
 const service = new PeopleService();
 
@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
     const offset = req.params.offset ? req.params.offset : 0;
 
     const objs = await service.find(limit, offset);
-    res.json(objs);
+    res.json(objs.map(obj => peopleMapper(obj)));
   } catch (error) {
     next(error);
   }
@@ -27,7 +27,7 @@ router.get('/:id',
     try {
       const { id } = req.params;
       const obj = await service.findOne(id);
-      res.json(obj);
+      res.json(peopleMapper(obj));
     } catch (error) {
       next(error);
     }
@@ -41,7 +41,7 @@ router.post('/',
     try {
       const body = req.body;
       const obj = await service.create(body);
-      res.status(201).json(obj);
+      res.status(201).json(peopleMapper(obj));
     } catch (error) {
       next(error);
     }
@@ -57,7 +57,7 @@ router.patch('/:id',
       const { id } = req.params;
       const body = req.body;
       const obj = await service.update(id, body);
-      res.json(obj);
+      res.json(peopleMapper(obj));
     } catch (error) {
       next(error);
     }
