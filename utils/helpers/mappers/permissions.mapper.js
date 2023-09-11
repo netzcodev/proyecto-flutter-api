@@ -1,5 +1,6 @@
 
 function permissionMapper(permission) {
+  console.log(permission);
   return {
     menuName: permission.menu.name,
     add: permission.add,
