@@ -16,7 +16,7 @@ router.post('/login',
       const user = req.user;
       const payload = {
         sub: user.id,
-        role: user.user.role.name
+        role: user.role.name
       }
       const token = signToken(payload);
       res.json(userLogginMapper({
@@ -37,7 +37,7 @@ router.get('/check-status',
       const user = await peopleService.findOne(req.user.sub);
       const payload = {
         sub: user.id,
-        role: user.user.role.name
+        role: user.role.name
       }
       const token = signToken(payload);
       res.json(userLogginMapper({

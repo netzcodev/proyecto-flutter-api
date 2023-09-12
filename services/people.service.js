@@ -19,10 +19,7 @@ class PeopleService {
     const response = await models.People.findAll({
       limit,
       offset,
-      include: [{
-        association: 'user',
-        include: ['role']
-      }]
+      include: ['role']
     });
     return response;
   }
@@ -30,13 +27,10 @@ class PeopleService {
   async findOne(id) {
     const obj = await models.People.findByPk(id, {
       include: [{
-        association: 'user',
+        association: 'role',
         include: [{
-          association: 'role',
-          include: [{
-            association: 'permissions',
-            include: ['menu']
-          }]
+          association: 'permissions',
+          include: ['menu']
         }]
       }]
     });
@@ -50,13 +44,10 @@ class PeopleService {
     const obj = await models.People.findOne({
       where: { email },
       include: [{
-        association: 'user',
+        association: 'role',
         include: [{
-          association: 'role',
-          include: [{
-            association: 'permissions',
-            include: ['menu']
-          }]
+          association: 'permissions',
+          include: ['menu']
         }]
       }]
     });

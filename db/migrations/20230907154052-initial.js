@@ -1,6 +1,5 @@
 'use strict';
 const { VehiclesModelSchema, vehiclesTable } = require('../models/vehicles.model');
-const { UsersModelSchema, usersTable } = require('../models/users.model');
 const { PeopleModelSchema, peopleTable } = require('../models/people.model');
 const { MenuModelSchema, menuTable } = require('../models/menu.model');
 const { ServicesModelSchema, servicesTable } = require('../models/services.model');
@@ -19,16 +18,15 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.createTable(vehiclesTable, VehiclesModelSchema);//*
+    await queryInterface.createTable(menuTable, MenuModelSchema); //*
     await queryInterface.createTable(rolesTable, RolesModelSchema);//*
-    await queryInterface.createTable(usersTable, UsersModelSchema); //*
+    await queryInterface.createTable(permissionsTable, PermissionsModelSchema); //*
     await queryInterface.createTable(peopleTable, PeopleModelSchema); //*
+    await queryInterface.createTable(vehiclesTable, VehiclesModelSchema);//*
     await queryInterface.createTable(servicestypesTable, ServicesTypesModelSchema); //*
     await queryInterface.createTable(servicesTable, ServicesModelSchema); //
     await queryInterface.createTable(schedulesTable, SchedulesModelSchema); //
     await queryInterface.createTable(scheduleserviceTable, ScheduleServiceModelSchema); //
-    await queryInterface.createTable(menuTable, MenuModelSchema); //*
-    await queryInterface.createTable(permissionsTable, PermissionsModelSchema); //*
   },
 
   async down(queryInterface) {
@@ -38,15 +36,14 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.dropTable(schedulesTable);
-    await queryInterface.dropTable(scheduleserviceTable);
     await queryInterface.dropTable(vehiclesTable);
+    await queryInterface.dropTable(scheduleserviceTable);
+    await queryInterface.dropTable(schedulesTable);
     await queryInterface.dropTable(servicesTable);
     await queryInterface.dropTable(servicestypesTable);
     await queryInterface.dropTable(permissionsTable);
-    await queryInterface.dropTable(peopleTable);
-    await queryInterface.dropTable(usersTable);
-    await queryInterface.dropTable(rolesTable);
     await queryInterface.dropTable(menuTable);
+    await queryInterface.dropTable(peopleTable);
+    await queryInterface.dropTable(rolesTable);
   }
 };

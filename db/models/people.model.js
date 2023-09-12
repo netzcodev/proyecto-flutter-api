@@ -1,5 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const { usersTable } = require('./users.model');
+const { rolesTable } = require('./roles.model');
 
 const TABLE = 'people';
 
@@ -45,12 +45,12 @@ const PeopleModelSchema = {
     allowNull: false,
     type: DataTypes.STRING(2)
   },
-  userId: {
-    field: 'user_id',
+  roleId: {
+    field: 'role_id',
     allowNull: false,
     type: DataTypes.INTEGER,
     references: {
-      model: usersTable,
+      model: rolesTable,
       key: 'id'
     },
     onUpdate: 'CASCADE',
@@ -71,7 +71,7 @@ const PeopleModelSchema = {
 
 class People extends Model {
   static associate(models) {
-    this.belongsTo(models.User, { as: 'user', foreignKey: 'userId' });
+    this.belongsTo(models.Role, { as: 'role', foreignKey: 'roleId' });
   }
 
   static config(sequelize) {

@@ -9,7 +9,7 @@ const email = Joi.string().email();
 const password = Joi.number();
 const photo = Joi.string().min(10);
 const status = Joi.string().min(1).max(2).default('A');
-const userId = Joi.number().integer().default(2);
+const roleId = Joi.number().integer().default(2);
 const createdAt = Joi.date().default(Date.now());
 const updatedAt = Joi.date().default(Date.now());
 
@@ -25,7 +25,7 @@ const createPeopleSchema = Joi.object({
   status,
   createdAt,
   updatedAt,
-  userId,
+  roleId,
 })
 
 const updatePeopleSchema = Joi.object({
@@ -37,6 +37,7 @@ const updatePeopleSchema = Joi.object({
   password,
   status,
   photo,
+  roleId,
   updatedAt
 })
 

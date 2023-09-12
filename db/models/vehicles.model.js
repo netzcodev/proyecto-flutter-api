@@ -1,4 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
+const { peopleTable } = require('./people.model');
 
 const TABLE = 'vehicles';
 
@@ -13,16 +14,16 @@ const VehiclesModelSchema = {
     allowNull: false,
     type: DataTypes.STRING(30)
   },
-  manufacturer: { // esto es una tabla aparte creo
-    allowNull: false,
-    type: DataTypes.INTEGER
+  manufacturer: {
+    allowNull: true,
+    type: DataTypes.STRING(30)
   },
   model: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.STRING(20)
   },
   fuel: {
-    allowNull: true,
+    allowNull: false,
     type: DataTypes.STRING(15)
   },
   type: {
@@ -37,20 +38,21 @@ const VehiclesModelSchema = {
     allowNull: false,
     type: DataTypes.INTEGER
   },
-  vId: {
-    allowNull: false,
-    unique: true,
-    field: 'v_id',
-    type: DataTypes.STRING(30)
-  },
   plate: {
     allowNull: false,
     unique: true,
     type: DataTypes.STRING(6)
   },
-  owner: { // esto va referenciado a un cliente
+  customerId: {
+    field: 'customer_id',
     allowNull: false,
     type: DataTypes.INTEGER,
+    references: {
+      model: peopleTable,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE'
   },
   createdAt: {
     allowNull: false,
@@ -66,8 +68,8 @@ const VehiclesModelSchema = {
 }
 
 class Vehicle extends Model {
-  static associate() {
-    // relaciones
+  static associate(models) {
+    this.belongsTo(models.People, { as: 'customer', foreignKey: 'customerId' });
   }
 
   static config(sequelize) {
