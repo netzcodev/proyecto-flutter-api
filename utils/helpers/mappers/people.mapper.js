@@ -6,11 +6,10 @@ function peopleMapper(json) {
     lastName: json.lastName,
     phone: json.phone || '',
     email: json.email,
-    password: json.password,
     photo: json.photo || '',
     status: json.status,
-    userId: json.userId,
-    role: json.user.role.name || 'cliente',
+    roleId: json.role.id,
+    role: json.role.name || 'cliente',
     createdAt: json.createdAt,
     updatedAt: json.updatedAt
   }

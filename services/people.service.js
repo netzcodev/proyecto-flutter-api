@@ -1,6 +1,14 @@
 const { models } = require('../libs/sequelize');
+const { Op } = require('sequelize');
 const boom = require('@hapi/boom');
 const { encryption } = require('../utils/helpers/encryption');
+
+const ROLES = {
+  'admin': 1,
+  'cliente': 2,
+  'empleado': 3,
+  'gerente': 4,
+}
 
 class PeopleService {
 
@@ -15,11 +23,16 @@ class PeopleService {
     return obj;
   }
 
-  async find(limit, offset) {
+  async find(limit, offset, discardId) {
+    console.log(discardId);
     const response = await models.People.findAll({
       limit,
       offset,
-      include: ['role']
+      include: ['role'],
+      where: {
+        id: { [Op.ne]: discardId },
+
+      }
     });
     return response;
   }
@@ -64,6 +77,21 @@ class PeopleService {
     const obj = await this.findOne(id);
     await obj.destroy(id);
     return { id };
+  }
+
+  async findByRole(limit, offset, role, discardId) {
+    const response = await models.People.findAll({
+      limit,
+      offset,
+      include: ['role'],
+      where: {
+        roleId: ROLES[role],
+        id: {
+          [Op.ne]: discardId
+        }
+      }
+    });
+    return response;
   }
 
 }

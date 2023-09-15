@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
     const limit = req.params.limit ? req.params.limit : 10;
     const offset = req.params.offset ? req.params.offset : 0;
 
-    const objs = await service.find(limit, offset, user.sub);
+    const objs = await service.findByRole(limit, offset, 'cliente', user.sub);
     res.json(objs.map(obj => peopleMapper(obj)));
   } catch (error) {
     next(error);
@@ -27,7 +27,7 @@ router.get('/:id',
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const obj = await service.findOne(id);
+      const obj = await service.findOneByRole(id, 'cliente');
       res.json(peopleMapper(obj));
     } catch (error) {
       next(error);

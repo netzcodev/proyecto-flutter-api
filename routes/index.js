@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const people = require('./people.router');
+const customers = require('./customers.router');
 const roles = require('./roles.router');
 const schedules = require('./schedules.router');
 const services = require('./services.router');
@@ -19,6 +20,7 @@ function routerApi(app) {
   router.use('/services-types', servicestypes);
   router.use('/roles', roles);
   router.use('/people', people);
+  router.use('/customers', customers);
 
 }
 
