@@ -35,7 +35,7 @@ const SchedulesModelSchema = {
   },
   serviceId: {
     field: 'service_id',
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.INTEGER,
     references: {
       model: servicesTable,
@@ -51,6 +51,14 @@ const SchedulesModelSchema = {
   time: {
     allowNull: false,
     type: DataTypes.TIME
+  },
+  name: {
+    allowNull: false,
+    type: DataTypes.STRING(20),
+  },
+  description: {
+    allowNull: false,
+    type: DataTypes.STRING(150),
   },
   createdAt: {
     allowNull: false,

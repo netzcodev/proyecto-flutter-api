@@ -1,34 +1,46 @@
 const { models } = require('../libs/sequelize');
+const { Op } = require('sequelize');
 const boom = require('@hapi/boom');
+const { startOfWeek, endOfWeek } = require('date-fns');
 
 class SchedulesService {
 
   async create(data) {
-    const obj = await models.Vehicle.create(data);
+    const obj = await models.Schedule.create(data);
     return obj;
   }
 
-  async find(query = null) {
-    const options = {
-      include: [
-        {
-          association: 'customer',
-          include: ['people'],
+  async find(week = null) {
+    const currentDate = new Date();
+    let schedules;
+
+    currentDate.setMonth(0, 1);
+    currentDate.setHours(0, 0, 0, 0);
+
+    const dayOfWeek = currentDate.getDay();
+    const daysUntilMonday = (dayOfWeek === 0 ? 7 : dayOfWeek) - 1;
+    currentDate.setDate(currentDate.getDate() - daysUntilMonday);
+
+    if (week) {
+      currentDate.setDate(currentDate.getDate() + (parseInt(week['week']) - 1) * 7);
+      const nextSaturday = new Date(currentDate);
+      nextSaturday.setDate(currentDate.getDate() + 6);
+
+      schedules = await models.Schedule.findAll({
+        where: {
+          date: {
+            [Op.between]: [startOfWeek(currentDate), endOfWeek(nextSaturday)],
+          },
         },
-        {
-          association: 'services',
-          include: ['serviceType']
-        },
-      ],
-      limit: query.limit ? query.limit : 10,
-      offset: query.offset ? query.offset : 0,
+      });
+    } else {
+      schedules = await models.Schedule.findAll();
     }
-    const response = await models.Vehicle.findAll(options);
-    return response;
+    return schedules;
   }
 
   async findOne(id) {
-    const obj = await models.Vehicle.findByPk(id, {
+    const obj = await models.Schedule.findByPk(id, {
       include: [
         {
           association: 'customer',
@@ -41,7 +53,7 @@ class SchedulesService {
       ]
     });
     if (!obj) {
-      throw boom.notFound('Vehicle Not Found');
+      throw boom.notFound('Schedule Not Found');
     }
     return obj;
   }

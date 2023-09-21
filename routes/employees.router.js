@@ -10,9 +10,9 @@ const service = new PeopleService();
 router.get('/', async (req, res, next) => {
   try {
     const user = req.user;
-    const { limit, offset } = req.params;
+    const { limit, offset } = req.query;
 
-    const objs = await service.find(limit, offset, user.sub);
+    const objs = await service.findByRole(limit, offset, 'empleado', user.sub);
     res.json(objs.map(obj => peopleMapper(obj)));
   } catch (error) {
     next(error);
@@ -26,7 +26,7 @@ router.get('/:id',
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const obj = await service.findOne(id);
+      const obj = await service.findOneByRole(id, 'empleado');
       res.json(peopleMapper(obj));
     } catch (error) {
       next(error);

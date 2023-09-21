@@ -24,7 +24,6 @@ class PeopleService {
   }
 
   async find(limit, offset, discardId) {
-    console.log(discardId);
     const response = await models.People.findAll({
       limit,
       offset,

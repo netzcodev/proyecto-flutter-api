@@ -13,8 +13,8 @@ const date = Joi.date().iso().custom((value, helpers) => {
   return value;
 }, 'Fecha personalizada.');
 const time = Joi.string().regex(/^([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/);
-const limit = Joi.number().integer();
-const offset = Joi.number().integer();
+const name = Joi.string().max(20);
+const description = Joi.string().max(150);
 
 const getScheduleSchema = Joi.object({
   id: id.required(),
@@ -23,9 +23,21 @@ const getScheduleSchema = Joi.object({
 const createScheduleSchema = Joi.object({
   customerId: customerId.required(),
   employeeId: employeeId.required(),
-  serviceId: serviceId.required(),
+  serviceId,
   date: date.required(),
-  time: time.required()
+  time: time.required(),
+  name: name.required(),
+  description: description.required(),
+});
+
+const updateScheduleSchema = Joi.object({
+  customerId,
+  employeeId,
+  serviceId,
+  date,
+  time,
+  name,
+  description,
 });
 
 const addServiceSchema = Joi.object({
@@ -33,9 +45,9 @@ const addServiceSchema = Joi.object({
   scheduleId: scheduleId.required(),
 });
 
-const queryScheduleSchema = Joi.object({
-  limit,
-  offset,
-});
-
-module.exports = { getScheduleSchema, createScheduleSchema, addServiceSchema, queryScheduleSchema };
+module.exports = {
+  getScheduleSchema,
+  createScheduleSchema,
+  addServiceSchema,
+  updateScheduleSchema
+};

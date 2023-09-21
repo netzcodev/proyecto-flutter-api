@@ -10,8 +10,7 @@ const service = new PeopleService();
 router.get('/', async (req, res, next) => {
   try {
     const user = req.user;
-    const limit = req.params.limit ? req.params.limit : 10;
-    const offset = req.params.offset ? req.params.offset : 0;
+    const { limit, offset } = req.query;
 
     const objs = await service.findByRole(limit, offset, 'cliente', user.sub);
     res.json(objs.map(obj => peopleMapper(obj)));

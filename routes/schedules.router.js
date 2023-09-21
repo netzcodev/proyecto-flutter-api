@@ -1,17 +1,17 @@
 const express = require('express');
-const SchedulesService = require('../services/vehicles.service');
+const SchedulesService = require('../services/schedules.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { createScheduleSchema, getScheduleSchema, addServiceSchema, queryScheduleSchema } = require('../schemas/schedules.schema');
+const { createScheduleSchema, getScheduleSchema, addServiceSchema } = require('../schemas/schedules.schema');
 
 const router = express.Router();
 const service = new SchedulesService();
 
 // Read
 router.get('/',
-  validatorHandler(queryScheduleSchema, 'query'),
   async (req, res, next) => {
     try {
-      const objs = await service.find(req.query);
+      const week = req.query.week;
+      const objs = await service.find(req.query, week);
       res.json(objs);
     } catch (error) {
       next(error);
