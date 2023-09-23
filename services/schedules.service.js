@@ -41,16 +41,7 @@ class SchedulesService {
 
   async findOne(id) {
     const obj = await models.Schedule.findByPk(id, {
-      include: [
-        {
-          association: 'customer',
-          include: ['people'],
-        },
-        {
-          association: 'services',
-          include: ['serviceType']
-        },
-      ]
+      include: ['services']
     });
     if (!obj) {
       throw boom.notFound('Schedule Not Found');

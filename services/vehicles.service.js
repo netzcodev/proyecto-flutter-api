@@ -11,8 +11,20 @@ class VehiclesService {
     return obj;
   }
 
-  async find() {
-    const response = await models.Vehicle.findAll();
+  async find(userId, role = null) {
+    let response;
+
+    if (role == 'cliente') {
+      response = await models.Vehicle.findAll({
+        where: {
+          id: userId
+        }
+      });
+
+      return response;
+    }
+
+    response = await models.Vehicle.findAll();
     return response;
   }
 

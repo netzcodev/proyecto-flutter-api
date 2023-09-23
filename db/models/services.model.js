@@ -34,7 +34,15 @@ const ServicesModelSchema = {
   },
   duration: {
     allowNull: false,
-    type: DataTypes.SMALLINT
+    type: DataTypes.INTEGER
+  },
+  name: {
+    allowNull: false,
+    type: DataTypes.STRING(20)
+  },
+  description: {
+    allowNull: false,
+    type: DataTypes.STRING(150)
   },
   createdAt: {
     allowNull: false,

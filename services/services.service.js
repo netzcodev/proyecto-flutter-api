@@ -5,6 +5,17 @@ class ServicesService {
 
   async create(data) {
     const obj = await models.Service.create(data);
+
+    const otherObj = await models.ScheduleService.create({
+      scheduleId: data.scheduleId,
+      serviceId: obj.dataValues.id,
+    })
+
+    if (!otherObj) {
+      await models.Service.delete(obj.dataValues.id);
+      throw "No se pudo crear";
+    }
+
     return obj;
   }
 

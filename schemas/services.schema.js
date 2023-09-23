@@ -2,39 +2,33 @@ const Joi = require('joi');
 
 const id = Joi.number();
 const serviceTypeId = Joi.number().integer();
+const scheduleId = Joi.number().integer();
 const duration = Joi.number().integer();
-const currentDate = Joi.date().iso().custom((value, helpers) => {
-  const isoString = value.toISOString();
-  if (!isoString.endsWith('T00:00:00.000Z')) {
-    return helpers.message('La fecha debe ser de tipo "date-only".');
-  }
-  return value;
-}).default(new Date().setHours(0, 0, 0, 0));
-const comingDate = Joi.date().iso().custom((value, helpers) => {
-  const isoString = value.toISOString();
-  if (!isoString.endsWith('T00:00:00.000Z')) {
-    return helpers.message('La fecha debe ser de tipo "date-only".');
-  }
-  return value;
-}, 'Fecha Personalizada');
+const currentDate = Joi.string();
+const comingDate = Joi.date();
 const createdAt = Joi.date().default(Date.now());
 const updatedAt = Joi.date().default(Date.now());
+const name = Joi.string().max(20).min(4);
+const description = Joi.string().max(150).min(4).empty().not('');
 
 const createServicesSchema = Joi.object({
   serviceTypeId: serviceTypeId.required(),
   duration: duration.required(),
-  currentDate: currentDate,
+  currentDate: currentDate.required(),
   comingDate: comingDate,
-  createdAt: createdAt,
-  updatedAt: updatedAt,
+  name: name.required(),
+  description: description.required().not('').empty(),
+  scheduleId: scheduleId.required().not(0),
+  createdAt,
+  updatedAt,
 })
 
 const updateServicesSchema = Joi.object({
   duration,
-  serviceTypeId,
   updatedAt,
-  currentDate,
   comingDate,
+  name,
+  description,
 })
 
 const getServicesSchema = Joi.object({

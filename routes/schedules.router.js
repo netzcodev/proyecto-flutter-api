@@ -1,6 +1,7 @@
 const express = require('express');
 const SchedulesService = require('../services/schedules.service');
 const validatorHandler = require('../middlewares/validator.handler');
+const { scheduleMapper } = require('../utils/helpers/mappers/schedule.mapper');
 const { createScheduleSchema, getScheduleSchema, addServiceSchema } = require('../schemas/schedules.schema');
 
 const router = express.Router();
@@ -26,7 +27,7 @@ router.get('/:id',
     try {
       const { id } = req.params;
       const obj = await service.findOne(id);
-      res.json(obj);
+      res.json(scheduleMapper(obj));
     } catch (error) {
       next(error);
     }
@@ -83,8 +84,9 @@ router.delete('/:id',
   async (req, res, next) => {
     try {
       const { id } = req.params;
+      const deletedSchedule = await service.findOne(id);
       await service.delete(id);
-      res.status(201).json({ id });
+      res.status(201).json({ id, date: deletedSchedule.date, });
     } catch (error) {
       next(error);
     }
