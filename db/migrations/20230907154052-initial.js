@@ -36,10 +36,10 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.dropTable(vehiclesTable);
     await queryInterface.dropTable(scheduleserviceTable);
     await queryInterface.dropTable(schedulesTable);
     await queryInterface.dropTable(servicesTable);
+    await queryInterface.dropTable(vehiclesTable);
     await queryInterface.dropTable(servicestypesTable);
     await queryInterface.dropTable(permissionsTable);
     await queryInterface.dropTable(menuTable);

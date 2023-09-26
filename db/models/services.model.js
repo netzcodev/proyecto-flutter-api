@@ -1,5 +1,6 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 const { servicestypesTable } = require('./servicestypes.model');
+const { vehiclesTable } = require('./vehicles.model');
 
 const TABLE = 'services';
 
@@ -44,6 +45,21 @@ const ServicesModelSchema = {
     allowNull: false,
     type: DataTypes.STRING(150)
   },
+  vehicleId: {
+    field: 'vehicle_id',
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    references: {
+      model: vehiclesTable,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE'
+  },
+  mileage: {
+    allowNull: false,
+    type: DataTypes.INTEGER
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
@@ -67,6 +83,10 @@ class Service extends Model {
       through: 'ScheduleService',
       foreignKey: 'serviceId',
       as: 'schedules',
+    })
+    this.belongsTo(models.Vehicle, {
+      foreignKey: 'vehicleId',
+      as: 'vehicle'
     })
   }
 

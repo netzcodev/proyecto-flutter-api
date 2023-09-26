@@ -11,13 +11,24 @@ const service = new SchedulesService();
 router.get('/',
   async (req, res, next) => {
     try {
-      const week = req.query.week;
-      const objs = await service.find(req.query, week);
+      const { week } = req.query;
+      const objs = await service.find(week, req.user.role, req.user.sub);
       res.json(objs);
     } catch (error) {
       next(error);
     }
   }
+)
+
+router.get('/coming', async (req, res, next) => {
+  try {
+    const { id } = req.query;
+    const objs = await service.findComingSchedule(id);
+    res.json(objs.map(element => scheduleMapper(element)));
+  } catch (error) {
+    next(error);
+  }
+}
 )
 
 // Details

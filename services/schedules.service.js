@@ -10,10 +10,9 @@ class SchedulesService {
     return obj;
   }
 
-  async find(week = null) {
+  async find(week = null, role, id) {
     const currentDate = new Date();
-    let schedules;
-
+    let filters = {};
     currentDate.setMonth(0, 1);
     currentDate.setHours(0, 0, 0, 0);
 
@@ -21,22 +20,52 @@ class SchedulesService {
     const daysUntilMonday = (dayOfWeek === 0 ? 7 : dayOfWeek) - 1;
     currentDate.setDate(currentDate.getDate() - daysUntilMonday);
 
+    if (role === 'cliente') {
+      filters.customerId = id;
+    } else if (role === 'mecanico') {
+      filters.employeeId = id;
+    }
+
     if (week) {
-      currentDate.setDate(currentDate.getDate() + (parseInt(week['week']) - 1) * 7);
+      currentDate.setDate(currentDate.getDate() + (parseInt(week) - 1) * 7);
       const nextSaturday = new Date(currentDate);
       nextSaturday.setDate(currentDate.getDate() + 6);
 
-      schedules = await models.Schedule.findAll({
+      const schedules = await models.Schedule.findAll({
         where: {
           date: {
             [Op.between]: [startOfWeek(currentDate), endOfWeek(nextSaturday)],
           },
+          ...filters,
         },
       });
+
+      return schedules;
     } else {
-      schedules = await models.Schedule.findAll();
+      const schedules = await models.Schedule.findAll();
+      return schedules;
     }
-    return schedules;
+  }
+
+  async findComingSchedule(id) {
+    const sequelize = models.Service.sequelize;
+    const query = `
+    SELECT *
+    FROM schedules
+    WHERE customer_id = :id
+    ORDER BY created_at DESC
+    LIMIT 1
+  `;
+
+    try {
+      const response = await sequelize.query(query, {
+        replacements: { id },
+        type: sequelize.QueryTypes.SELECT
+      });
+      return response;
+    } catch (error) {
+      throw new Error(`Error al ejecutar la consulta: ${error}`);
+    }
   }
 
   async findOne(id) {

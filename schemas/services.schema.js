@@ -3,7 +3,9 @@ const Joi = require('joi');
 const id = Joi.number();
 const serviceTypeId = Joi.number().integer();
 const scheduleId = Joi.number().integer();
+const vehicleId = Joi.number().integer();
 const duration = Joi.number().integer();
+const mileage = Joi.number().integer();
 const currentDate = Joi.string();
 const comingDate = Joi.date();
 const createdAt = Joi.date().default(Date.now());
@@ -19,6 +21,8 @@ const createServicesSchema = Joi.object({
   name: name.required(),
   description: description.required().not('').empty(),
   scheduleId: scheduleId.required().not(0),
+  vehicleId: vehicleId.required().not(0),
+  mileage: mileage.required().not(0),
   createdAt,
   updatedAt,
 })

@@ -1,6 +1,7 @@
 const express = require('express');
 const ServicesService = require('../services/services.service');
 const validatorHandler = require('../middlewares/validator.handler');
+const { serivceMapper } = require('../utils/helpers/mappers/service.mapper');
 const { createServicesSchema, getServicesSchema, updateServicesSchema } = require('../schemas/services.schema');
 
 const router = express.Router();
@@ -11,6 +12,29 @@ router.get('/', async (req, res, next) => {
   try {
     const objs = await service.find();
     res.json(objs);
+  } catch (error) {
+    next(error);
+  }
+}
+)
+
+router.get('/dashboard', async (req, res, next) => {
+  try {
+    const { id, limit, offset } = req.query;
+    const objs = await service.findHistory(id, limit, offset);
+    res.json(objs.map(element => serivceMapper(element)));
+  } catch (error) {
+    next(error);
+  }
+}
+)
+
+router.get('/coming', async (req, res, next) => {
+  try {
+    const { id } = req.query;
+    const objs = await service.findComingService(id);
+
+    res.json(objs.map(element => serivceMapper(element)));
   } catch (error) {
     next(error);
   }
