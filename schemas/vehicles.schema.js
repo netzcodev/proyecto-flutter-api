@@ -9,6 +9,7 @@ const type = Joi.string().max(15);
 const color = Joi.string().max(15);
 const mileage = Joi.number();
 const plate = Joi.string().max(6);
+const firebaseToken = Joi.string();
 const customerId = Joi.number().integer();
 const createdAt = Joi.date().default(Date.now());
 const updatedAt = Joi.date().default(Date.now());
@@ -24,6 +25,7 @@ const createVehicleSchema = Joi.object({
   mileage: mileage.required(),
   plate: plate.required(),
   customerId: customerId.required(),
+  firebaseToken,
   createdAt,
   updatedAt,
 })
@@ -38,6 +40,7 @@ const updateVehicleSchema = Joi.object({
   mileage,
   plate,
   customerId,
+  firebaseToken,
   createdAt,
   updatedAt,
 })

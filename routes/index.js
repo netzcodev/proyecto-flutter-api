@@ -9,6 +9,7 @@ const services = require('./services.router');
 const servicestypes = require('./servicestypes.router');
 const vehicles = require('./vehicles.router');
 const auth = require('./auth.router');
+const firebase = require('./firebase.router');
 
 function routerApi(app) {
   const router = express.Router();
@@ -23,6 +24,7 @@ function routerApi(app) {
   router.use('/people', people);
   router.use('/customers', customers);
   router.use('/employees', employees);
+  router.use('/firebase', firebase);
 
 }
 

@@ -2,6 +2,7 @@ const express = require('express');
 const VehiclesService = require('../services/vehicles.service');
 const validatorHandler = require('../middlewares/validator.handler');
 const { createVehicleSchema, getVehicleSchema, updateVehicleSchema } = require('../schemas/vehicles.schema');
+const { getFirebaseAccessToken, sendPushNotification } = require('../services/firebase.service');
 
 const router = express.Router();
 const service = new VehiclesService();
@@ -54,7 +55,18 @@ router.patch('/:id',
       const { id } = req.params;
       const body = req.body;
       const obj = await service.update(id, body);
-      res.json(obj);
+      console.log(obj.notificationFlag, obj.notificationType);
+      if (req.user.role == 'cliente' && obj.notificationFlag) {
+        console.log('entro a hacer el envío de la push');
+        const accessToken = await getFirebaseAccessToken();
+        await sendPushNotification(
+          accessToken,
+          req.body.firebaseToken,
+          obj.notificationType,
+          obj.response.dataValues.plate
+        );
+      }
+      res.json(obj.response);
     } catch (error) {
       next(error);
     }

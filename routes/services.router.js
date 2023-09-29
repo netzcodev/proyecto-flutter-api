@@ -41,6 +41,23 @@ router.get('/coming', async (req, res, next) => {
 }
 )
 
+router.get('/report', async (req, res, next) => {
+  try {
+    const filename = `reporte-${Date.now()}-${req.user.sub}`;
+
+    const stream = await service.generatePdfReport(req.user.sub, filename);
+
+    res.json({
+      filename: filename,
+      path: '/tmpData/',
+      stream: stream,
+    })
+  } catch (error) {
+    next(error);
+  }
+}
+)
+
 // Details
 router.get('/:id',
   validatorHandler(getServicesSchema, 'params'),

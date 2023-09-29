@@ -60,6 +60,11 @@ const ServicesModelSchema = {
     allowNull: false,
     type: DataTypes.INTEGER
   },
+  comingMileage: {
+    allowNull: true,
+    field: 'coming_mileage',
+    type: DataTypes.INTEGER
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,

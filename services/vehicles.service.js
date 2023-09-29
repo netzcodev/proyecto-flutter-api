@@ -37,9 +37,24 @@ class VehiclesService {
   }
 
   async update(id, changes) {
+    let notificationFlag = false;
+    let notificationType = 'mileage';
     const obj = await this.findOne(id);
+    const lastService = await this.getLastVehicleService(obj.dataValues.id);
+
+    if (changes.mileage && changes.mileage >= lastService.coming_mileage) {
+      notificationFlag = true;
+      notificationType = 'scheduleMileage';
+    }
+
+    if (lastService.coming_date && new Date() >= new Date(lastService.coming_date)) {
+      notificationFlag = true;
+      notificationType = 'scheduleDate';
+    }
+
+
     const response = await obj.update(changes);
-    return response;
+    return { response, notificationFlag, notificationType };
   }
 
   async delete(id) {
@@ -48,6 +63,30 @@ class VehiclesService {
     return { id };
   }
 
+  async getLastVehicleService(vehicleId) {
+    const sequelize = models.Service.sequelize;
+    const query = `
+      SELECT
+        s.id,
+        s.coming_date,
+        s.coming_mileage
+      FROM services s
+      WHERE s.vehicle_id = :id
+      ORDER BY created_at DESC
+      LIMIT 1
+    `;
+
+    try {
+      const response = await sequelize.query(query, {
+        replacements: { id: vehicleId },
+        type: sequelize.QueryTypes.SELECT
+      });
+
+      return response[0];
+    } catch (error) {
+      throw new Error(`Error al ejecutar la consulta: ${error}`);
+    }
+  }
 }
 
 module.exports = VehiclesService;

@@ -1,8 +1,10 @@
-const express = require('express');
-const routerApi = require('./routes');
-const cors = require('cors');
 const { config } = require('./config/config');
 const { errorHandler, logError, boomErrorHandler, ormErrorHandler } = require('./middlewares/error.handler');
+const admin = require("firebase-admin");
+const cors = require('cors');
+const express = require('express');
+const routerApi = require('./routes');
+const serviceAccount = require("./firebase-admin.json");
 
 const app = express();
 const port = config.port;
@@ -18,6 +20,10 @@ const options = {
     }
   }
 }
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
 app.use(express.json());
 app.use(cors(options));
