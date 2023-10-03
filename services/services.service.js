@@ -2,7 +2,6 @@ const { models } = require('../libs/sequelize');
 const boom = require('@hapi/boom');
 const pdf = require('pdfkit-construct');
 const { formatDate } = require('../utils/helpers/date.helper');
-const fs = require('fs');
 
 class ServicesService {
 
@@ -95,7 +94,7 @@ class ServicesService {
     return response;
   }
 
-  async generatePdfReport(userId, fileName) {
+  async generatePdfReport(userId, dataCallback, endCallback) {
     const sequelize = models.Service.sequelize;
     const doc = new pdf({
       bufferPages: true
@@ -108,7 +107,7 @@ class ServicesService {
           s.name,
           s.description,
           v.plate vehicle,
-          v.name || ' ' || COALESCE(v.manufacturer, '') vehicle_name
+          COALESCE(v.manufacturer, '')||' '||v.name vehicle_name
       FROM services s
       INNER JOIN schedule_service ss ON s.id = ss.service_id
       INNER JOIN schedules sch ON ss.schedule_id = sch.id
@@ -119,8 +118,8 @@ class ServicesService {
 
     const cliente = await models.People.findByPk(userId);
 
-    // doc.on('data', (data) => { stream.write(data) });
-    // doc.on('end', () => { stream.end() });
+    doc.on('data', dataCallback);
+    doc.on('end', endCallback);
 
     let servicios = await sequelize.query(query, {
       replacements: { id: userId },
@@ -188,10 +187,7 @@ class ServicesService {
 
     doc.render();
     doc.setPageNumbers((p, c) => `Página ${p} de ${c}`, "bottom left");
-    doc.pipe(fs.WriteStream(`./tmpData/${fileName}.pdf`));
     doc.end();
-
-
   }
 
   async delete(id) {

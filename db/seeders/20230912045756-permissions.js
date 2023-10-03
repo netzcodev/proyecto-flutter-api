@@ -137,6 +137,26 @@ module.exports = {
         created_at: date,
         updated_at: date,
       },
+      {
+        role_id: 4,
+        menu_id: 6,
+        add: 1,
+        read: 1,
+        modify: 1,
+        remove: 1,
+        created_at: date,
+        updated_at: date,
+      },
+      {
+        role_id: 4,
+        menu_id: 7,
+        add: 1,
+        read: 1,
+        modify: 1,
+        remove: 1,
+        created_at: date,
+        updated_at: date,
+      },
       // Mecanico
       {
         role_id: 3,

@@ -43,15 +43,18 @@ router.get('/coming', async (req, res, next) => {
 
 router.get('/report', async (req, res, next) => {
   try {
-    const filename = `reporte-${Date.now()}-${req.user.sub}`;
+    const filename = `reporte-${Date.now()}-${2}`;
 
-    const stream = await service.generatePdfReport(req.user.sub, filename);
+    const stream = res.writeHead(200, {
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment;filename=${filename}.pdf`
+    });
 
-    res.json({
-      filename: filename,
-      path: '/tmpData/',
-      stream: stream,
-    })
+    await service.generatePdfReport(
+      req.user.sub,
+      (chunk) => stream.write(chunk),
+      () => stream.end()
+    );
   } catch (error) {
     next(error);
   }

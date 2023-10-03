@@ -17,9 +17,23 @@ function scheduleMapper(json) {
     createdAt: json.createdAt ? json.createdAt : json.created_at,
     updatedAt: json.updatedAt ? json.updatedAt : json.updated_at,
     services: services,
+    occupiedTimes: json.dataValues.occupiedTimes ? json.dataValues.occupiedTimes : [],
   }
 }
 
+function occupiedTimesMapper(json) {
+  return to12HourFormat(json.time);
+}
+
+const to12HourFormat = time => {
+  const [hour, minute] = time.split(':');
+  const h = (hour % 12) || 12;
+  const ampm = hour < 12 || hour === '24' ? 'AM' : 'PM';
+  return `${h}:${minute} ${ampm}`;
+};
+
 module.exports = {
   scheduleMapper,
+  occupiedTimesMapper,
+  to12HourFormat
 }

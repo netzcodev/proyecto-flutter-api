@@ -2,6 +2,7 @@ const { models } = require('../libs/sequelize');
 const { Op } = require('sequelize');
 const boom = require('@hapi/boom');
 const { startOfWeek, endOfWeek } = require('date-fns');
+const { occupiedTimesMapper } = require('../utils/helpers/mappers/schedule.mapper');
 
 class SchedulesService {
 
@@ -72,9 +73,15 @@ class SchedulesService {
     const obj = await models.Schedule.findByPk(id, {
       include: ['services']
     });
+
     if (!obj) {
       throw boom.notFound('Schedule Not Found');
     }
+
+    const occupiedTimes = await this.getOccupiedTimes(obj.date, obj.id);
+
+    obj.dataValues.occupiedTimes = occupiedTimes;
+
     return obj;
   }
 
@@ -88,6 +95,27 @@ class SchedulesService {
     const obj = await this.findOne(id);
     await obj.destroy(id);
     return { id };
+  }
+
+  async getOccupiedTimes(date, id = null) {
+    const sequelize = models.Service.sequelize;
+    const query = `
+      SELECT time
+      FROM schedules
+      WHERE date = :dateValue::date
+      ${(id == null || id == 0) ? ' AND id <> :id ' : ''}
+    `;
+
+    try {
+      const response = await sequelize.query(query, {
+        replacements: { dateValue: date, id: id },
+        type: sequelize.QueryTypes.SELECT
+      });
+
+      return response.map(element => occupiedTimesMapper(element));
+    } catch (error) {
+      return [];
+    }
   }
 
 }

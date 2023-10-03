@@ -31,6 +31,17 @@ router.get('/coming', async (req, res, next) => {
 }
 )
 
+router.get('/occupied', async (req, res, next) => {
+  try {
+    const { date, id } = req.query;
+    const objs = await service.getOccupiedTimes(date, id);
+    res.json(objs);
+  } catch (error) {
+    next(error);
+  }
+}
+)
+
 // Details
 router.get('/:id',
   validatorHandler(getScheduleSchema, 'params'),

@@ -18,8 +18,8 @@ function routerApi(app) {
   router.use(passport.authenticate('jwt', { session: false }))
   router.use('/vehicles', vehicles);
   router.use('/schedules', schedules);
-  router.use('/services', services);
   router.use('/services-types', servicestypes);
+  router.use('/services', services);
   router.use('/roles', roles);
   router.use('/people', people);
   router.use('/customers', customers);
