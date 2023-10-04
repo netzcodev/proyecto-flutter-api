@@ -216,5 +216,5 @@ $RECYCLE.BIN/
 *.lnk
 
 postgres_data
-
+firebase-admin.json
 # End of https://www.toptal.com/developers/gitignore/api/node,macos,windows,linux
